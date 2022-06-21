@@ -1,8 +1,6 @@
-# ZktClient
+# ZktClient - a Ruby client for the Zkt APIs
 
-Welcome to your new gem! In this directory, you'll find the files you need to be able to package up your Ruby library into a gem. Put your Ruby code in the file `lib/zkt_client`. To experiment with that code, run `bin/console` for an interactive prompt.
-
-TODO: Delete this and the text above, and describe your gem
+ZktClient helps you write apps that need to interact with Zkt APIs by provideing you with a helper methods like a Rails ActiveRecord methods, those methods has been built depending on the Zkt APIs, currently we are supported only [BioTime APIs](https://zkteco.eu/sites/default/files/content/downloads/biotime-8.0-user-manual-v4.0-20201224.pdf).
 
 ## Installation
 
@@ -22,7 +20,85 @@ Or install it yourself as:
 
 ## Usage
 
-TODO: Write usage instructions here
+# Setup configurations
+
+Our gem need three keys to make the integration
+ 
+* Host url -> `ZKT_HOST`
+* Username -> `ZKT_USERNAME`
+* Password -> `ZKT_PASSWORD`
+
+You can send that key to the gem using two ways:
+
+* Add that keys to ENV variables and this is the default option.
+ 
+  `NOTE: Our gem will read the credentials from ENV variables by default if not configured in Rails application.`
+
+* Configure the credentials from Rails application, you need to create a new file called `zkt_client.rb` in `config/initializers` and add the following code in it.
+
+```ruby
+ZktClient.configure do |config|
+  config.host = 'Your zkt host'
+  config.username = 'Your account username'
+  config.password = 'Your account password'
+end
+```
+
+## Models:
+
+Currently we are supported only the following models:
+
+* Employee
+* Terminal
+* Area
+* Transaction
+* Department
+* Position
+
+## Methods:
+
+* Instance methodes:
+
+- `update(attributes)`
+- `delete`
+
+* Class methods:
+
+* `find(id)`
+* `find!(id)`
+* `all`
+* `where(**options)` 
+* `create(**attributes)` -> creates a new object on DB.
+* `delete(id)` -> delete specific object depending on passed id.
+
+## Using methods:
+
+* `find(id)` -> it accepts only integer and returns object or nil.
+
+```ruby
+ ZktClient::Employee.find(1) # object or nil
+```
+
+* `find!(id)` -> it accepts only integer and returns object or exception
+
+```ruby
+ ZktClient::Employee.find(1) # object or exception
+```
+
+* `all` -> returns all objects from DB.
+
+```ruby
+ZktClient::Employee.all # all objects
+```
+
+* `where(**options)` -> it accepts options, returns collection of objectes depending the options.
+
+- Supported options:
+
+
+```ruby
+ZktClient::Employee.where()
+```
 
 ## Development
 
